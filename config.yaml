@@ -1,0 +1,202 @@
+# Paper Discovery Pipeline Configuration
+# ========================================
+
+# Target year or date range for paper discovery
+year: 2025
+# Include papers through early 2026
+start_date: "2025-01-01"
+end_date: "2026-04-01"
+
+# Path to your Obsidian vault (absolute path).
+# Override by setting OBSIDIAN_VAULT_PATH in your environment or by editing
+# this field in a local copy of the config. Do not commit a personal path.
+obsidian_vault_path: "~/Obsidian/MyVault"
+
+# Staging directory for generated files (before copying to vault)
+staging_dir: "./staging"
+
+# Working directory for intermediate files
+work_dir: "./work"
+
+# ---- API Keys ----
+# Semantic Scholar API key (free: https://www.semanticscholar.org/product/api)
+# Set via SEMANTIC_SCHOLAR_API_KEY environment variable. Do not commit keys.
+semantic_scholar_api_key: ""
+
+# ---- Paper Sources ----
+sources:
+  huggingface:
+    enabled: true
+    # Minimum upvotes on HF Daily Papers to consider
+    min_upvotes: 5
+
+  semantic_scholar:
+    enabled: true
+    # Fields of study filter for S2 bulk search
+    fields_of_study:
+      - "Computer Science"
+    # Minimum influential citation count to consider
+    min_influential_citations: 3
+
+  conferences:
+    enabled: true
+    # Conferences to check for best paper awards
+    venues:
+      - "NeurIPS"
+      - "ICML"
+      - "ICLR"
+      - "CVPR"
+      - "ICCV"
+      - "ECCV"
+      - "AAAI"
+      - "ACL"
+      - "EMNLP"
+      - "SIGGRAPH"
+      - "RSS"
+      - "CoRL"
+
+# ---- Categories ----
+# Each category has a name, arxiv codes, and search keywords
+categories:
+  vision:
+    display_name: "Computer Vision (General)"
+    arxiv_categories: ["cs.CV"]
+    search_keywords:
+      - "object detection"
+      - "image segmentation"
+      - "visual recognition"
+      - "video understanding"
+      - "image generation"
+      - "visual representation"
+
+  embeddings:
+    display_name: "Image Embeddings & Foundation Models"
+    arxiv_categories: ["cs.CV", "cs.LG"]
+    search_keywords:
+      - "vision foundation model"
+      - "image embedding"
+      - "visual encoder"
+      - "contrastive learning"
+      - "vision-language model"
+      - "CLIP"
+      - "visual representation learning"
+      - "self-supervised vision"
+
+  3d:
+    display_name: "3D Vision & Scene Understanding"
+    arxiv_categories: ["cs.CV", "cs.GR"]
+    search_keywords:
+      - "3D reconstruction"
+      - "neural radiance"
+      - "gaussian splatting"
+      - "3D generation"
+      - "point cloud"
+      - "depth estimation"
+      - "3D scene"
+      - "novel view synthesis"
+
+  llms:
+    display_name: "Large Language Models"
+    arxiv_categories: ["cs.CL", "cs.AI"]
+    search_keywords:
+      - "large language model"
+      - "instruction tuning"
+      - "reasoning"
+      - "chain of thought"
+      - "alignment"
+      - "RLHF"
+      - "in-context learning"
+
+  architectures:
+    display_name: "ML Architectures"
+    arxiv_categories: ["cs.LG", "cs.AI"]
+    search_keywords:
+      - "transformer"
+      - "attention mechanism"
+      - "state space model"
+      - "mixture of experts"
+      - "neural architecture"
+      - "efficient inference"
+      - "model compression"
+      - "quantization"
+
+  ml-general:
+    display_name: "General Machine Learning"
+    arxiv_categories: ["cs.LG", "stat.ML"]
+    search_keywords:
+      - "optimization"
+      - "generalization"
+      - "training dynamics"
+      - "loss landscape"
+      - "regularization"
+      - "meta-learning"
+      - "transfer learning"
+      - "data augmentation"
+      - "scaling law"
+
+  rl:
+    display_name: "Reinforcement Learning"
+    arxiv_categories: ["cs.LG", "cs.AI"]
+    search_keywords:
+      - "reinforcement learning"
+      - "reward model"
+      - "policy optimization"
+      - "offline RL"
+      - "multi-agent"
+      - "exploration"
+
+  robotics:
+    display_name: "Robotics & Embodied AI"
+    arxiv_categories: ["cs.RO", "cs.AI"]
+    search_keywords:
+      - "robot learning"
+      - "manipulation"
+      - "embodied"
+      - "sim-to-real"
+      - "locomotion"
+      - "world model"
+
+  other:
+    display_name: "Other Notable Papers"
+    arxiv_categories: []
+    search_keywords: []
+
+# ---- Scoring ----
+scoring:
+  # Weight for source bonus in final score
+  # Conference best papers get full bonus, blog mentions get half
+  conference_best_paper_bonus: 0.3
+  blog_mention_bonus: 0.15
+
+# ---- LLM Triage ----
+triage:
+  # Minimum novelty score (1-5) to include a paper
+  min_score: 4
+  # Target number of papers after triage
+  target_count: 100
+  # Batch size for LLM processing
+  batch_size: 25
+
+# ---- Obsidian Output ----
+obsidian:
+  # Directory structure within the vault
+  papers_dir: "literature/papers"
+  topics_dir: "literature/topics"
+  mocs_dir: "literature/MOCs"
+
+  # Frontmatter fields to include in paper notes
+  frontmatter_fields:
+    - "title"
+    - "authors"
+    - "year"
+    - "arxiv_id"
+    - "category"
+    - "tags"
+    - "venue"
+    - "citation_count"
+    - "influential_citation_count"
+    - "date_added"
+    - "status"  # unread | read | reviewed
+
+  # Dataview compatible status values
+  default_status: "unread"
